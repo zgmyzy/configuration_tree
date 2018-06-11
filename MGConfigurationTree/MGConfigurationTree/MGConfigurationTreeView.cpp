@@ -139,9 +139,13 @@ void CMGConfigurationTreeView::OnTestForTree()
 	char path[256];
 	memset(path, 0, 256);
 
-	CString strPath(_T("D:\\workspace\\MGConfigurationTree\\MGConfigurationTree\\config.txt"));
+	CString strPath;
+	//strPath = _T("D:\\workspace\\MGConfigurationTree\\MGConfigurationTree\\config.txt");
+	strPath = _T("E:\\workspace\\tree\\configuration_tree\\MGConfigurationTree\\config.txt");
 	TreeInit(strPath);
 }
+
+
 
 
 void CMGConfigurationTreeView::TreeInit(CString strPath)
@@ -164,28 +168,92 @@ void CMGConfigurationTreeView::TreeInit(CString strPath)
 	}
 
 	char cData[256];
-	memset(cData, 0, 256);
-	fgets(cData, 256, pFile);
-
-	while (strcmp(cData, "") != 0)
+	TreeNode* tnParent = NULL;
+	TreeNode* tnTempParent = new TreeNode();
+	while (!feof(pFile))
 	{
+		memset(cData, 0, 256);
+		fgets(cData, 256, pFile);
 		CString strData(cData);
-		if (strData.GetLength() != 0)
+		if (strData.GetLength() != 0 && strData != _T("\n"))
 		{
-			int pos = strData.Find(_T("echo"));
+			int pos = strData.Find(_T("#"));
+			if (0 == pos) continue;
+			
+			pos = strData.Find(_T("echo"));
+			if (-1 != pos) continue;
+
+			pos = strData.Find(_T("exit"));
+			if (-1 != pos) continue;
 			//CString tmp;
 			//tmp.Format(_T("%d", pos));
 			//AfxMessageBox(tmp);
-			if (-1 != pos)
+			char* c = cData;
+			int nSpace = 0;
+			while('\0' != *c)
 			{
-				hTreeRoot = m_treeConfig.InsertItem(strData.Mid(pos + 6, strData.GetLength() - pos - 8));
-
+				if (' ' == *c)
+				{
+					nSpace++;
+					c++;
+				}
+				else
+					break;
 			}
+			TreeNode* newNode = new TreeNode(strData.Mid(nSpace, strData.GetLength()-nSpace-1), nSpace);
+			if (!tnParent)
+			{
+				tnParent = newNode;
+			}
+			else
+			{
+				if (nSpace > tnTempParent->GetSpace())
+				{
+					tnTempParent->AddChild(newNode);
+				}
+				else if (nSpace == tnTempParent->GetSpace())
+				{
+					tnTempParent->AddSibling(newNode);
+				}
+				else
+				{
+					while ((tnTempParent = tnTempParent->GetParent()) != NULL && nSpace < tnTempParent->GetSpace())
+					{}
+					if (tnTempParent && nSpace == tnTempParent->GetSpace())
+					{
+						tnTempParent->AddSibling(newNode);
+					}
+				}
+			}
+
+			tnTempParent = newNode;
 
 		}
 		memset(cData, 0, 256);
-		fgets(cData, 256, pFile);
 	}
 	fclose(pFile);
+
+	//TreeNode* a = new TreeNode(_T("Tom"));
+	//TreeNode* b = new TreeNode(_T("Jony"));
+	//TreeNode* c  = new TreeNode(_T("Gray"));
+	//TreeNode* d = new TreeNode(_T("Nep"));
+	//TreeNode* e = new TreeNode(_T("A"));
+	//TreeNode* f = new TreeNode(_T("B"));
+	//TreeNode* g = new TreeNode(_T("C"));
+	//TreeNode* h = new TreeNode(_T("D"));
+
+	//a->AddChild(b);
+	//a->AddChild(c);
+	//a->AddChild(d);
+	//b->AddChild(e);
+	//b->AddChild(f);
+	//b->AddChild(g);
+	//c->AddChild(h);
+	//AfxMessageBox(a->PrintNode());
+	//AfxMessageBox(a->PrintTree());
+
+
+
 //	m_treeConfig.Expand(hTreeRoot, TVE_EXPAND);
 }
+

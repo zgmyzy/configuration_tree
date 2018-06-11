@@ -1,9 +1,10 @@
 
 // MGConfigurationTreeView.h : interface of the CMGConfigurationTreeView class
 //
-#include <string>
-#pragma once
 
+#pragma once
+#include <string>
+#include "CTreeNode.h"
 
 class CMGConfigurationTreeView : public CView
 {
