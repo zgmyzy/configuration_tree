@@ -163,8 +163,6 @@ void CMGConfigurationTreeView::OnRClickTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult)
 	m_treeConfig.ScreenToClient(&cp);
 	CString tmp;
 
-	
-
 	HTREEITEM  item = m_treeConfig.HitTest(cp, NULL);
 
 	CString str = m_treeConfig.GetItemText(item);
