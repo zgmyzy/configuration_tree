@@ -4,7 +4,7 @@
 
 #pragma once
 #include <string>
-#include "CTreeNode.h"
+#include "TreeCtrlMgr.h"
 
 class CMGConfigurationTreeView : public CView
 {
@@ -44,12 +44,15 @@ protected:
 
 private:
 	CTreeCtrl m_treeConfig;
+	CTreeCtrlMgr m_tcMgr;
+
+
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
 	afx_msg void OnTestForTree();
-	void TreeInit(CString strPath);
-};
+
+	void OnRClickTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult);};
 
 #ifndef _DEBUG  // debug version in MGConfigurationTreeView.cpp
 inline CMGConfigurationTreeDoc* CMGConfigurationTreeView::GetDocument() const

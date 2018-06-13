@@ -61,6 +61,22 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU_RCLICK MENU
+BEGIN
+    POPUP "Expand all"
+    BEGIN
+        MENUITEM "Expand",                      ID_EXPANDALL_EXPAND
+        MENUITEM "Collapse",                    ID_EXPANDALL_COLLAPSE
+        MENUITEM "Copy",                        ID_EXPANDALL_COPY
+    END
+END
+
 #endif    // Chinese (Simplified, PRC) resources
 /////////////////////////////////////////////////////////////////////////////
 

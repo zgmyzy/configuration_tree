@@ -30,6 +30,7 @@ BEGIN_MESSAGE_MAP(CMGConfigurationTreeView, CView)
 	ON_WM_PAINT()
 	ON_WM_SIZE()
 	ON_COMMAND(ID_TEST, &CMGConfigurationTreeView::OnTestForTree)
+	ON_NOTIFY(NM_RCLICK, ID_TREE_CONFIG, OnRClickTreeCtrl)
 END_MESSAGE_MAP()
 
 // CMGConfigurationTreeView construction/destruction
@@ -140,120 +141,41 @@ void CMGConfigurationTreeView::OnTestForTree()
 	memset(path, 0, 256);
 
 	CString strPath;
-	//strPath = _T("D:\\workspace\\MGConfigurationTree\\MGConfigurationTree\\config.txt");
-	strPath = _T("E:\\workspace\\tree\\configuration_tree\\MGConfigurationTree\\config.txt");
-	TreeInit(strPath);
+	strPath = _T("D:\\workspace\\git_tree\\configuration_tree\\MGConfigurationTree\\TEST.txt");
+    //strPath = _T("E:\\workspace\\tree\\configuration_tree\\MGConfigurationTree\\config.txt");
+
+	CTreeNode* tnTree = m_tcMgr.TreeInit(strPath);
+	if (tnTree)
+	{
+		m_treeConfig.DeleteAllItems();
+		m_tcMgr.TreeCtrlDisplay(&m_treeConfig, tnTree, NULL);
+		//m_tcMgr.onTest(&m_treeConfig, _T("TEST"), NULL, 20000);
+		delete tnTree;
+		tnTree = NULL;
+	}
+
 }
 
-
-
-
-void CMGConfigurationTreeView::TreeInit(CString strPath)
+void CMGConfigurationTreeView::OnRClickTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	HTREEITEM hTreeRoot;
-	HTREEITEM hTreeSub;
-	HTREEITEM hTreeSub1;
+	CPoint  cp;
+	GetCursorPos(&cp);
+	m_treeConfig.ScreenToClient(&cp);
+	CString tmp;
 
-	//hTreeRoot = m_treeConfig.InsertItem(_T("configure"));
+	
 
+	HTREEITEM  item = m_treeConfig.HitTest(cp, NULL);
 
-	std::string strPath1 = CStringA(strPath);
-	FILE* pFile;
-	fopen_s(&pFile, strPath1.c_str(), "r");
-
-
-	if (pFile == NULL)
+	CString str = m_treeConfig.GetItemText(item);
+	if (item != NULL)
 	{
-		AfxMessageBox(_T("oPENfIL failed"));
+		m_treeConfig.SelectItem(item);
+		CMenu menu; 
+		ClientToScreen(&cp);
+		menu.LoadMenu(IDR_MENU_RCLICK);
+		menu.GetSubMenu(0)->TrackPopupMenu(TPM_TOPALIGN | TPM_LEFTALIGN, cp.x+15, cp.y+10, this, NULL);
 	}
-
-	char cData[256];
-	TreeNode* tnParent = NULL;
-	TreeNode* tnTempParent = new TreeNode();
-	while (!feof(pFile))
-	{
-		memset(cData, 0, 256);
-		fgets(cData, 256, pFile);
-		CString strData(cData);
-		if (strData.GetLength() != 0 && strData != _T("\n"))
-		{
-			int pos = strData.Find(_T("#"));
-			if (0 == pos) continue;
-			
-			pos = strData.Find(_T("echo"));
-			if (-1 != pos) continue;
-
-			pos = strData.Find(_T("exit"));
-			if (-1 != pos) continue;
-			//CString tmp;
-			//tmp.Format(_T("%d", pos));
-			//AfxMessageBox(tmp);
-			char* c = cData;
-			int nSpace = 0;
-			while('\0' != *c)
-			{
-				if (' ' == *c)
-				{
-					nSpace++;
-					c++;
-				}
-				else
-					break;
-			}
-			TreeNode* newNode = new TreeNode(strData.Mid(nSpace, strData.GetLength()-nSpace-1), nSpace);
-			if (!tnParent)
-			{
-				tnParent = newNode;
-			}
-			else
-			{
-				if (nSpace > tnTempParent->GetSpace())
-				{
-					tnTempParent->AddChild(newNode);
-				}
-				else if (nSpace == tnTempParent->GetSpace())
-				{
-					tnTempParent->AddSibling(newNode);
-				}
-				else
-				{
-					while ((tnTempParent = tnTempParent->GetParent()) != NULL && nSpace < tnTempParent->GetSpace())
-					{}
-					if (tnTempParent && nSpace == tnTempParent->GetSpace())
-					{
-						tnTempParent->AddSibling(newNode);
-					}
-				}
-			}
-
-			tnTempParent = newNode;
-
-		}
-		memset(cData, 0, 256);
-	}
-	fclose(pFile);
-
-	//TreeNode* a = new TreeNode(_T("Tom"));
-	//TreeNode* b = new TreeNode(_T("Jony"));
-	//TreeNode* c  = new TreeNode(_T("Gray"));
-	//TreeNode* d = new TreeNode(_T("Nep"));
-	//TreeNode* e = new TreeNode(_T("A"));
-	//TreeNode* f = new TreeNode(_T("B"));
-	//TreeNode* g = new TreeNode(_T("C"));
-	//TreeNode* h = new TreeNode(_T("D"));
-
-	//a->AddChild(b);
-	//a->AddChild(c);
-	//a->AddChild(d);
-	//b->AddChild(e);
-	//b->AddChild(f);
-	//b->AddChild(g);
-	//c->AddChild(h);
-	//AfxMessageBox(a->PrintNode());
-	//AfxMessageBox(a->PrintTree());
-
-
-
-//	m_treeConfig.Expand(hTreeRoot, TVE_EXPAND);
 }
+
 

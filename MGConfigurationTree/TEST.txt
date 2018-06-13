@@ -1,3 +1,181 @@
-Name:Tom,Jony,Gray  
-City:China,Enlish,Japanese  
-Data:We,Fri,Sun
+# TiMOS-MG-C-9.0.B1-255 cpm/x86_64 Nokia 7750 SR-MG Copyright (c) 2000-2018 Nokia.
+# All rights reserved. All use subject to applicable license agreements.
+# Built on Fri Jan 19 18:51:49 PST 2018 by builder in /builds/MG90B/B1-255/panos/main
+
+# Generated THU MAY 17 03:19:26 2018 UTC
+
+exit all
+configure
+#--------------------------------------------------
+echo "System Configuration"
+#--------------------------------------------------
+    system
+        name "HZSAEGW133BNK"
+        config-backup 9
+        dns
+        exit
+        boot-good-exec "cf3:/ver"
+        boot-bad-exec "cf3:/ver"
+        switchover-exec "cf3:/ver"
+        system-ip-load-balancing
+        snmp
+            streaming
+                no shutdown
+            exit
+            packet-size 9216
+        exit
+        time
+            ntp
+                no authentication-check
+                server 10.70.91.148
+                server 10.70.91.149
+                no shutdown
+            exit
+            sntp
+                shutdown
+            exit
+            zone CHN 08
+        exit
+        thresholds
+            rmon
+            exit
+        exit
+    exit
+#--------------------------------------------------
+echo "System Security Configuration"
+#--------------------------------------------------
+    system
+        security
+            telnet-server
+            ftp-server
+            profile "read"
+                default-action permit-all
+                entry 10
+                    match "file vi"
+                    action deny
+                exit
+                entry 20
+                    match "file type"
+                    action permit
+                exit
+                entry 30
+                    match "file delete"
+                    action deny
+                exit
+                entry 40
+                    match "file copy"
+                    action deny
+                exit
+            exit
+            profile "write"
+                default-action permit-all
+                entry 10
+                    match "file vi"
+                    action permit
+                exit
+                entry 20
+                    match "file delete"
+                    action deny
+                exit
+                entry 30
+                    match "file copy"
+                    action deny
+                exit
+            exit
+            profile "normal"
+                default-action permit-all
+                entry 10
+                    match "debug"
+                    action deny
+                exit
+                entry 20
+                    match "file vi"
+                    action deny
+                exit
+                entry 30
+                    match "file type"
+                    action deny
+                exit
+            exit
+            profile "li_profile"
+                default-action permit-all
+                li
+                entry 10
+                    match "configure system security"
+                    action permit
+                exit
+                entry 20
+                    match "show system security"
+                    action permit
+                exit
+                entry 30
+                    match "tools perform security"
+                    action permit
+                exit
+                entry 40
+                    match "configure li save"
+                    action permit
+                exit
+                entry 100
+                    match "configure li"
+                    action permit
+                exit
+                entry 110
+                    match "show li"
+                    action permit
+                exit
+            exit
+            password
+                attempts 3 time 3 lockout 5
+                no health-check
+                admin-password "6/e2ycrGZhMXmKi62gg5t." hash2
+                enable-admin-control
+                    tacplus-map-to-priv-lvl 1
+                exit
+                history-size 3
+                complexity-rules
+                    credits uppercase 1 numeric 1 special-character 1
+                    minimum-classes 4
+                    minimum-length 11
+                exit
+            exit
+            user "admin"
+                password "$2y$10$ReUZIhOZ8q9510MecCv6HOgohmNhT1bFmHovrdvQFlLU/v6R0CcWu"
+                access console ftp snmp 
+                console
+                    login-exec "cf3:\ver"
+                    member "administrative"
+                exit
+            exit
+            user "adminli"
+                password "$2y$10$eYbUqkOMNV04Skt28mA8Z.nc42oTnNY32kvfiVEJ2E28Zy3AO7n8."
+                access console ftp snmp li 
+                console
+                    no member "default"
+                    member "li_profile"
+                    member "administrative"
+                exit
+            exit
+            user "nokia"
+                password "$2y$10$pPRDINxZ5qmyE9TZkW1t9.0pVmLeZuU/Ap/ug5XRScYR/AxcjZahq"
+                access console ftp snmp 
+                console
+                    login-exec "cf3:\ver"
+                    member "default"
+                    member "read"
+                exit
+            exit
+            user "yangjf"
+                password "$2y$10$bjg2v9EXu43p4Vhmhfqxle1.bLzg3RQllw26MRS5Hlob5S29XOmAa"
+                access console ftp snmp 
+                console
+                    login-exec "cf3:\ver"
+                    member "administrative"
+                    member "default"
+                exit
+            exit
+            snmp
+                community "KEVHFWAKM4.V3YxcJOqbP." hash2 rwa version both
+            exit
+        exit
+    exit
