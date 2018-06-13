@@ -179,3 +179,758 @@ echo "System Security Configuration"
             exit
         exit
     exit
+#--------------------------------------------------
+echo "System Login Control Configuration"
+#--------------------------------------------------
+    system
+        login-control
+            ssh
+                inbound-max-sessions 15
+                outbound-max-sessions 15
+            exit
+            idle-timeout 15
+            no login-banner
+        exit
+    exit
+#--------------------------------------------------
+echo "Log Configuration"
+#--------------------------------------------------
+    log 
+        file-id 10 
+            description "kpi/kci-per-15min"
+            location cf2: 
+            rollover 15 retention 500 
+        exit 
+        file-id 20 
+            location cf1: 
+            rollover 30 retention 500 
+        exit 
+        file-id 30 
+            location cf1: 
+            rollover 15 retention 500 
+        exit 
+        file-id 40 
+        exit 
+        file-id 66 
+        exit 
+        accounting-policy 10 
+            description "kpi/kci-statistics-per-15min" 
+            record complete-kpi-kci 
+            collection-interval 15 
+            to file 10 
+            no shutdown 
+        exit 
+        syslog 1
+            description "LI-LOG"
+            address 10.212.131.237
+            port 8514
+        exit 
+        snmp-trap-group 98
+            description "5620sam"
+            trap-target "0017A477FC26:main1" address 10.212.121.240 snmpv2c notify-community "cMG133@nsptrap98"
+            trap-target "0017A477FC26:main2" address 10.212.121.241 snmpv2c notify-community "cMG133@nsptrap98"
+        exit 
+        log-id 20 
+            time-format local
+            from debug-trace main security change 
+            to file 20
+        exit 
+        log-id 30 
+            time-format local
+            from change 
+            to file 30
+        exit 
+        log-id 40 
+            from debug-trace main security change 
+            to syslog 1
+        exit 
+        log-id 98 
+            from main security change 
+            to snmp 1024
+        exit 
+    exit 
+#--------------------------------------------------
+echo "System Security Cpm Hw Filters and PKI Configuration"
+#--------------------------------------------------
+    system
+        security
+        exit
+    exit
+#--------------------------------------------------
+echo "QoS Policy Configuration"
+#--------------------------------------------------
+    qos
+    exit
+#--------------------------------------------------
+echo "Card Configuration"
+#--------------------------------------------------
+    card 1
+        card-type iom-v-mg
+        mda 1
+            mda-type isa-mg-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-aa-v
+            no shutdown
+        exit
+        no shutdown
+    exit
+    card 2
+        card-type iom-v-mg
+        mda 1
+            mda-type isa-mg-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-aa-v
+            no shutdown
+        exit
+        no shutdown
+    exit
+    card 3
+        card-type iom-v-mg
+        mda 1
+            mda-type isa-mg-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-aa-v
+            no shutdown
+        exit
+        no shutdown
+    exit
+    card 4
+        card-type iom-v-mg
+        mda 1
+            mda-type isa-mg-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-aa-v
+            no shutdown
+        exit
+        no shutdown
+    exit
+    card 5
+        card-type iom-v-mg
+        mda 1
+            mda-type isa-mg-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-aa-v
+            no shutdown
+        exit
+        no shutdown
+    exit
+    card 6
+        card-type iom-v-mg
+        mda 1
+            mda-type isa-mg-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-aa-v
+            no shutdown
+        exit
+        no shutdown
+    exit
+    card 7
+        card-type iom-v-mg
+        mda 1
+            mda-type isa-mg-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-aa-v
+            no shutdown
+        exit
+        no shutdown
+    exit
+    card 8
+        card-type iom-v-mg
+        mda 1
+            mda-type isa-mg-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-aa-v
+            no shutdown
+        exit
+        no shutdown
+    exit
+    card 9
+        card-type iom-v-mg
+        mda 1
+            mda-type isa-mg-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-aa-v
+            no shutdown
+        exit
+        no shutdown
+    exit
+    card 10
+        card-type iom-v-mg
+        mda 1
+            mda-type isa-mg-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-aa-v
+            no shutdown
+        exit
+        no shutdown
+    exit
+    card 11
+        card-type iom-v
+        shutdown
+        mda 1
+            mda-type m20-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-tunnel-v
+            no shutdown
+        exit
+    exit
+    card 12
+        card-type iom-v
+        mda 1
+            mda-type m20-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-ip-reas-v
+            no shutdown
+        exit
+        no shutdown
+    exit
+    card 13
+        card-type iom-v
+        mda 1
+            mda-type m20-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-tunnel-v
+            no shutdown
+        exit
+        no shutdown
+    exit
+    card 14
+        card-type iom-v
+        mda 1
+            mda-type m20-v
+            no shutdown
+        exit
+        mda 2
+            mda-type isa-ip-reas-v
+            no shutdown
+        exit
+        no shutdown
+    exit
+#--------------------------------------------------
+echo "ISA Configuration"
+#--------------------------------------------------
+    isa
+        application-assurance-group 1 aa-sub-scale mobile-gateway create
+            primary 1/2
+            primary 2/2
+            primary 3/2
+            primary 4/2
+            primary 5/2
+            primary 6/2
+            primary 7/2
+            primary 8/2
+            primary 9/2
+            primary 10/2
+            shared-resources
+                tcp-adv-func 0
+            exit
+            partitions
+            statistics
+                performance
+                    collect-stats
+                exit
+            exit
+            no shutdown
+        exit
+        tunnel-group 1 create
+            primary 11/2
+            backup 13/2
+            no shutdown
+        exit
+    exit
+#--------------------------------------------------
+echo "Port Configuration"
+#--------------------------------------------------
+    port 1/2/fm-sub
+    exit
+    port 1/2/to-sub
+    exit
+    port 1/2/aa-svc
+    exit
+    port 2/2/fm-sub
+    exit
+    port 2/2/to-sub
+    exit
+    port 2/2/aa-svc
+    exit
+    port 3/2/fm-sub
+    exit
+    port 3/2/to-sub
+    exit
+    port 3/2/aa-svc
+    exit
+    port 4/2/fm-sub
+    exit
+    port 4/2/to-sub
+    exit
+    port 4/2/aa-svc
+    exit
+    port 5/2/fm-sub
+    exit
+    port 5/2/to-sub
+    exit
+    port 5/2/aa-svc
+    exit
+    port 6/2/fm-sub
+    exit
+    port 6/2/to-sub
+    exit
+    port 6/2/aa-svc
+    exit
+    port 7/2/fm-sub
+    exit
+    port 7/2/to-sub
+    exit
+    port 7/2/aa-svc
+    exit
+    port 8/2/fm-sub
+    exit
+    port 8/2/to-sub
+    exit
+    port 8/2/aa-svc
+    exit
+    port 9/2/fm-sub
+    exit
+    port 9/2/to-sub
+    exit
+    port 9/2/aa-svc
+    exit
+    port 10/2/fm-sub
+    exit
+    port 10/2/to-sub
+    exit
+    port 10/2/aa-svc
+    exit
+    port 11/1/1
+        ethernet
+            mode access
+            encap-type dot1q
+            mtu 9000
+        exit
+        no shutdown
+    exit
+    port 11/1/2
+        ethernet
+            mode access
+            encap-type dot1q
+            mtu 9000
+        exit
+        no shutdown
+    exit
+    port 11/1/3
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/4
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/5
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/6
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/7
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/8
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/9
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/10
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/11
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/12
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/13
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/14
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/15
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/16
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/17
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/18
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/19
+        shutdown
+        ethernet
+        exit
+    exit
+    port 11/1/20
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/1
+        ethernet
+            mode access
+            encap-type dot1q
+            mtu 9000
+        exit
+        no shutdown
+    exit
+    port 12/1/2
+        ethernet
+            mode access
+            encap-type dot1q
+        exit
+        no shutdown
+    exit
+    port 12/1/3
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/4
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/5
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/6
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/7
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/8
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/9
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/10
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/11
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/12
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/13
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/14
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/15
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/16
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/17
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/18
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/19
+        shutdown
+        ethernet
+        exit
+    exit
+    port 12/1/20
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/1
+        ethernet
+            mode hybrid
+            encap-type dot1q
+            mtu 9000
+        exit
+        no shutdown
+    exit
+    port 13/1/2
+        ethernet
+            mode access
+            encap-type dot1q
+            mtu 9000
+        exit
+        no shutdown
+    exit
+    port 13/1/3
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/4
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/5
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/6
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/7
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/8
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/9
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/10
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/11
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/12
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/13
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/14
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/15
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/16
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/17
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/18
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/19
+        shutdown
+        ethernet
+        exit
+    exit
+    port 13/1/20
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/1
+        ethernet
+            mode access
+            encap-type dot1q
+            mtu 9000
+        exit
+        no shutdown
+    exit
+    port 14/1/2
+        ethernet
+            mode hybrid
+            encap-type dot1q
+            mtu 9000
+        exit
+        no shutdown
+    exit
+    port 14/1/3
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/4
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/5
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/6
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/7
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/8
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/9
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/10
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/11
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/12
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/13
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/14
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/15
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/16
+        shutdown
+        ethernet
+        exit
+    exit
+    port 14/1/17
+        shutdown
+        ethernet
+        exit

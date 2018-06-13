@@ -31,6 +31,9 @@ BEGIN_MESSAGE_MAP(CMGConfigurationTreeView, CView)
 	ON_WM_SIZE()
 	ON_COMMAND(ID_TEST, &CMGConfigurationTreeView::OnTestForTree)
 	ON_NOTIFY(NM_RCLICK, ID_TREE_CONFIG, OnRClickTreeCtrl)
+	ON_COMMAND(ID_RCLICKMENU_EXPANDALL, &CMGConfigurationTreeView::OnRclickmenuExpandall)
+	ON_COMMAND(ID_EXPANDALL_EXPAND, &CMGConfigurationTreeView::OnExpandallExpand)
+	ON_COMMAND(ID_EXPANDALL_COLLAPSE, &CMGConfigurationTreeView::OnExpandallCollapse)
 END_MESSAGE_MAP()
 
 // CMGConfigurationTreeView construction/destruction
@@ -118,7 +121,7 @@ int CMGConfigurationTreeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_treeConfig.Create(TVS_HASBUTTONS, CRect(0, 0, 0, 0), this, ID_TREE_CONFIG);
 	m_treeConfig.ShowWindow(SW_SHOWNORMAL);
-
+	m_treeConfig.SetIndent(TREECTRL_INDENT);
 	return 0;
 }
 
@@ -141,14 +144,15 @@ void CMGConfigurationTreeView::OnTestForTree()
 	memset(path, 0, 256);
 
 	CString strPath;
-	strPath = _T("D:\\workspace\\git_tree\\configuration_tree\\MGConfigurationTree\\TEST.txt");
-    //strPath = _T("E:\\workspace\\tree\\configuration_tree\\MGConfigurationTree\\config.txt");
+	//strPath = _T("D:\\workspace\\git_tree\\configuration_tree\\MGConfigurationTree\\TEST.txt");
+    strPath = _T("E:\\workspace\\tree\\configuration_tree\\MGConfigurationTree\\config.txt");
 
 	CTreeNode* tnTree = m_tcMgr.TreeInit(strPath);
 	if (tnTree)
 	{
 		m_treeConfig.DeleteAllItems();
 		m_tcMgr.TreeCtrlDisplay(&m_treeConfig, tnTree, NULL);
+		m_tcMgr.TreeCtrlExpand(&m_treeConfig, m_treeConfig.GetRootItem());
 		//m_tcMgr.onTest(&m_treeConfig, _T("TEST"), NULL, 20000);
 		delete tnTree;
 		tnTree = NULL;
@@ -161,11 +165,11 @@ void CMGConfigurationTreeView::OnRClickTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult)
 	CPoint  cp;
 	GetCursorPos(&cp);
 	m_treeConfig.ScreenToClient(&cp);
-	CString tmp;
 
 	HTREEITEM  item = m_treeConfig.HitTest(cp, NULL);
 
-	CString str = m_treeConfig.GetItemText(item);
+	//CString str = m_treeConfig.GetItemText(item);
+	//AfxMessageBox(str);
 	if (item != NULL)
 	{
 		m_treeConfig.SelectItem(item);
@@ -177,3 +181,21 @@ void CMGConfigurationTreeView::OnRClickTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult)
 }
 
 
+
+
+void CMGConfigurationTreeView::OnRclickmenuExpandall()
+{
+	m_tcMgr.TreeCtrlExpandCollapseAll(&m_treeConfig, m_treeConfig.GetSelectedItem(), true);
+}
+
+
+void CMGConfigurationTreeView::OnExpandallExpand()
+{
+	m_tcMgr.TreeCtrlExpand(&m_treeConfig, m_treeConfig.GetSelectedItem());
+}
+
+
+void CMGConfigurationTreeView::OnExpandallCollapse()
+{
+	m_tcMgr.TreeCtrlExpandCollapseAll(&m_treeConfig, m_treeConfig.GetSelectedItem(), false);
+}

@@ -6,6 +6,8 @@
 #include <string>
 #include "TreeCtrlMgr.h"
 
+#define TREECTRL_INDENT 40
+
 class CMGConfigurationTreeView : public CView
 {
 protected: // create from serialization only
@@ -52,7 +54,10 @@ public:
 	afx_msg void OnPaint();
 	afx_msg void OnTestForTree();
 
-	void OnRClickTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult);};
+	void OnRClickTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult); afx_msg void OnRclickmenuExpandall();
+	afx_msg void OnExpandallExpand();
+	afx_msg void OnExpandallCollapse();
+};
 
 #ifndef _DEBUG  // debug version in MGConfigurationTreeView.cpp
 inline CMGConfigurationTreeDoc* CMGConfigurationTreeView::GetDocument() const

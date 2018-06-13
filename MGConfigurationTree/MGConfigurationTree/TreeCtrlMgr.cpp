@@ -25,7 +25,7 @@ CTreeNode* CTreeCtrlMgr::TreeInit(CString strPath)
 		//CString tmp;
 		//tmp.Format(_T("%d", pos));
 		//AfxMessageBox(tmp);
-		AfxMessageBox(_T("Openf failed"));
+		AfxMessageBox(_T("Open file failed"));
 		return NULL;
 	}
 
@@ -147,9 +147,35 @@ void CTreeCtrlMgr::TreeCtrlDisplay(CTreeCtrl* tc, CTreeNode* node, HTREEITEM ite
 		TreeCtrlDisplay(tc, tnTmp, item);
 	}
 
-
-	tc->Expand(hTmp, TVE_EXPAND);
+	tc->Expand(hTmp, TVE_COLLAPSE);
 
 	return;
 }
 
+void CTreeCtrlMgr::TreeCtrlExpand(CTreeCtrl * tc, HTREEITEM item)
+{
+	tc->Expand(item, TVE_EXPAND);
+}
+
+void CTreeCtrlMgr::TreeCtrlExpandCollapseAll(CTreeCtrl* tc, HTREEITEM item, bool expand)
+{
+	if (!tc->ItemHasChildren(item))
+	{
+		return;
+	}
+	HTREEITEM hNextItem = tc->GetChildItem(item);
+	while (hNextItem != NULL)
+	{
+		TreeCtrlExpandCollapseAll(tc, hNextItem, expand);
+		hNextItem = tc->GetNextItem(hNextItem, TVGN_NEXT);
+	}
+	if (expand)
+	{
+		tc->Expand(item, TVE_EXPAND);
+	}
+	else
+	{
+		tc->Expand(item, TVE_COLLAPSE);
+	}
+	
+}
