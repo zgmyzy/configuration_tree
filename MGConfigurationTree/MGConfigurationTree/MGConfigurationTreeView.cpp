@@ -31,12 +31,23 @@ BEGIN_MESSAGE_MAP(CMGConfigurationTreeView, CView)
 	ON_WM_SIZE()
 	ON_COMMAND(ID_TEST, &CMGConfigurationTreeView::OnTestForTree)
 	ON_NOTIFY(NM_RCLICK, ID_TREE_CONFIG, OnRClickTreeCtrl)
+	ON_NOTIFY(NM_DBLCLK, ID_TREE_CONFIG, OnDblClkTreeCtrl)
 	ON_COMMAND(ID_RCLICKMENU_EXPANDALL, &CMGConfigurationTreeView::OnRclickmenuExpandall)
-	ON_COMMAND(ID_EXPANDALL_EXPAND, &CMGConfigurationTreeView::OnExpandallExpand)
-	ON_COMMAND(ID_EXPANDALL_COLLAPSE, &CMGConfigurationTreeView::OnExpandallCollapse)
+	ON_COMMAND(ID_RCLICKMENU_EXPAND, &CMGConfigurationTreeView::OnRclickmenuExpand)
+	ON_COMMAND(ID_RCLICKMENU_COLLAPSE, &CMGConfigurationTreeView::OnRclickmenuCollapse)
+	ON_COMMAND(ID_RCLICKMENU_COPY, &CMGConfigurationTreeView::OnRclickmenuCopy)
+	ON_COMMAND(ID_SEARCH, &CMGConfigurationTreeView::OnSearch)
 END_MESSAGE_MAP()
 
 // CMGConfigurationTreeView construction/destruction
+
+DWORD __stdcall ThreadFunc(LPVOID lpParameter)
+{
+	CSearchDialog dlg;
+	dlg.DoModal();
+	((CMGConfigurationTreeView*)lpParameter)->OnRclickmenuExpand();
+	return NULL;
+}
 
 CMGConfigurationTreeView::CMGConfigurationTreeView()
 {
@@ -145,7 +156,7 @@ void CMGConfigurationTreeView::OnTestForTree()
 
 	CString strPath;
 	//strPath = _T("D:\\workspace\\git_tree\\configuration_tree\\MGConfigurationTree\\TEST.txt");
-    strPath = _T("E:\\workspace\\tree\\configuration_tree\\MGConfigurationTree\\config.txt");
+    strPath = _T("E:\\workspace\\tree\\configuration_tree\\MGConfigurationTree\\TEST.txt");
 
 	CTreeNode* tnTree = m_tcMgr.TreeInit(strPath);
 	if (tnTree)
@@ -168,8 +179,6 @@ void CMGConfigurationTreeView::OnRClickTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult)
 
 	HTREEITEM  item = m_treeConfig.HitTest(cp, NULL);
 
-	//CString str = m_treeConfig.GetItemText(item);
-	//AfxMessageBox(str);
 	if (item != NULL)
 	{
 		m_treeConfig.SelectItem(item);
@@ -178,6 +187,22 @@ void CMGConfigurationTreeView::OnRClickTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult)
 		menu.LoadMenu(IDR_MENU_RCLICK);
 		menu.GetSubMenu(0)->TrackPopupMenu(TPM_TOPALIGN | TPM_LEFTALIGN, cp.x+15, cp.y+10, this, NULL);
 	}
+}
+
+void CMGConfigurationTreeView::OnDblClkTreeCtrl(NMHDR * pNMHDR, LRESULT * pResult)
+{
+	PopDialogCopy();
+	*pResult = TRUE;
+}
+
+void CMGConfigurationTreeView::PopDialogCopy()
+{
+	CCopyDialog *copyDialog = new CCopyDialog();
+	CString temp = m_treeConfig.GetItemText(m_treeConfig.GetSelectedItem());
+	HTREEITEM item = m_treeConfig.GetSelectedItem();
+	copyDialog->m_str = temp;
+	copyDialog->DoModal();
+	delete copyDialog;
 }
 
 
@@ -189,13 +214,33 @@ void CMGConfigurationTreeView::OnRclickmenuExpandall()
 }
 
 
-void CMGConfigurationTreeView::OnExpandallExpand()
+void CMGConfigurationTreeView::OnRclickmenuExpand()
 {
 	m_tcMgr.TreeCtrlExpand(&m_treeConfig, m_treeConfig.GetSelectedItem());
 }
 
 
-void CMGConfigurationTreeView::OnExpandallCollapse()
+void CMGConfigurationTreeView::OnRclickmenuCollapse()
 {
 	m_tcMgr.TreeCtrlExpandCollapseAll(&m_treeConfig, m_treeConfig.GetSelectedItem(), false);
 }
+
+
+void CMGConfigurationTreeView::OnRclickmenuCopy()
+{
+	PopDialogCopy();
+}
+
+
+void CMGConfigurationTreeView::OnSearch()
+{
+	hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadFunc, this, 0, &ThreadID);
+
+	CloseHandle(hThread);
+}
+
+CTreeCtrlMgr CMGConfigurationTreeView::GetTreeCtrlMgr()
+{
+	return m_tcMgr;
+}
+

@@ -9,19 +9,31 @@
 #define IDR_MGConfigurationTYPE         130
 #define IDR_MENU1                       310
 #define IDR_MENU_RCLICK                 310
+#define IDD_DIALOG_COPY                 311
+#define IDD_DIALOG_SEARCH               315
+#define IDC_EDIT_COPY                   1000
+#define IDC_BUTTON_CLOSE                1002
+#define IDC_EDIT_SEARCH                 1004
+#define IDC_PREV                        1005
+#define IDC_NEXT                        1006
 #define ID_TEST                         32771
 #define ID_EXPANDALL_EXPAND             32773
 #define ID_EXPANDALL_COLLAPSE           32774
 #define ID_EXPANDALL_COPY               32775
 #define ID_RCLICKMENU_EXPANDALL         32776
+#define ID_RCLICKMENU_EXPAND            32777
+#define ID_RCLICKMENU_COLLAPSE          32778
+#define ID_RCLICKMENU_COPY              32779
+#define ID_FILE_SEARCH                  32780
+#define ID_SEARCH                       32781
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        311
-#define _APS_NEXT_COMMAND_VALUE         32777
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_RESOURCE_VALUE        317
+#define _APS_NEXT_COMMAND_VALUE         32782
+#define _APS_NEXT_CONTROL_VALUE         1007
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

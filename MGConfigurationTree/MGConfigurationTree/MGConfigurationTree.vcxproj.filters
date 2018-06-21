@@ -45,6 +45,12 @@
     <ClInclude Include="TreeCtrlMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CopyDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MGConfigurationTree.cpp">
@@ -66,6 +72,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TreeCtrlMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CopyDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

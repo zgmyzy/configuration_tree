@@ -12,7 +12,7 @@ public:
 	void TreeCtrlDisplay(CTreeCtrl* tc, CTreeNode* root, HTREEITEM item);
 	void TreeCtrlExpand(CTreeCtrl* tc, HTREEITEM item);
 	void TreeCtrlExpandCollapseAll(CTreeCtrl* tc, HTREEITEM item, bool expand);
-	void TreeCtrlCollapse(CTreeCtrl* tc, HTREEITEM item);
+
 	void onTest(CTreeCtrl* tc, CString node, HTREEITEM item, int n);
 };
 

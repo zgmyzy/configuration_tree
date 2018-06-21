@@ -72,10 +72,77 @@ BEGIN
     POPUP "RCLICKMENU"
     BEGIN
         MENUITEM "Expand all",                  ID_RCLICKMENU_EXPANDALL
-        MENUITEM "Expand",                      ID_EXPANDALL_EXPAND
-        MENUITEM "Collapse",                    ID_EXPANDALL_COLLAPSE
-        MENUITEM "Copy",                        ID_EXPANDALL_COPY
+        MENUITEM "Expand",                      ID_RCLICKMENU_EXPAND
+        MENUITEM "Collapse",                    ID_RCLICKMENU_COLLAPSE
+        MENUITEM "Copy",                        ID_RCLICKMENU_COPY
     END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG_COPY DIALOGEX 0, 0, 182, 26
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EDIT_COPY,7,7,121,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "close",IDC_BUTTON_CLOSE,138,7,37,12
+END
+
+IDD_DIALOG_SEARCH DIALOGEX 0, 0, 219, 28
+STYLE DS_SYSMODAL | DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Search"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EDIT_SEARCH,7,7,89,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Prev",IDC_PREV,105,7,50,14
+    PUSHBUTTON      "Next",IDC_NEXT,162,7,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_DIALOG_COPY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 175
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 19
+    END
+
+    IDD_DIALOG_SEARCH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 212
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 21
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_DIALOG_COPY AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_DIALOG_SEARCH AFX_DIALOG_LAYOUT
+BEGIN
+    0
 END
 
 #endif    // 中文(简体，中国) resources
@@ -99,6 +166,7 @@ BEGIN
     POPUP "&File"
     BEGIN
         MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "Search",                      ID_SEARCH
         MENUITEM "Test",                        ID_TEST
         MENUITEM SEPARATOR
         MENUITEM "Recent File",                 ID_FILE_MRU_FILE1
@@ -154,7 +222,7 @@ IDR_MAINFRAME TOOLBAR 16, 15
 BEGIN
     BUTTON      ID_TEST
     BUTTON      ID_FILE_OPEN
-    BUTTON      ID_FILE_SAVE
+    BUTTON      ID_SEARCH
     SEPARATOR
     BUTTON      ID_EDIT_CUT
     BUTTON      ID_EDIT_COPY

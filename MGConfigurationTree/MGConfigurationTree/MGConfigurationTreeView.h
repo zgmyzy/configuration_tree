@@ -5,8 +5,13 @@
 #pragma once
 #include <string>
 #include "TreeCtrlMgr.h"
+#include "CopyDialog.h"
+#include "SearchDialog.h"
 
 #define TREECTRL_INDENT 40
+#define WM_SEARCH_MESSAGE WM_USER+100
+
+
 
 class CMGConfigurationTreeView : public CView
 {
@@ -47,6 +52,8 @@ protected:
 private:
 	CTreeCtrl m_treeConfig;
 	CTreeCtrlMgr m_tcMgr;
+	HANDLE hThread;
+	DWORD ThreadID;
 
 
 public:
@@ -54,9 +61,20 @@ public:
 	afx_msg void OnPaint();
 	afx_msg void OnTestForTree();
 
-	void OnRClickTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult); afx_msg void OnRclickmenuExpandall();
-	afx_msg void OnExpandallExpand();
-	afx_msg void OnExpandallCollapse();
+	void OnRClickTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult); 
+	void OnDblClkTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult);
+	void PopDialogCopy();
+	//static DWORD __stdcall  ThreadFunc(LPVOID lpParameter);
+
+	afx_msg void OnRclickmenuExpandall();
+	afx_msg void OnRclickmenuExpand();
+	afx_msg void OnRclickmenuCollapse();
+	afx_msg void OnRclickmenuCopy();
+	afx_msg void OnSearch();
+
+	CTreeCtrlMgr GetTreeCtrlMgr();
+
+
 };
 
 #ifndef _DEBUG  // debug version in MGConfigurationTreeView.cpp
