@@ -4,14 +4,14 @@
 
 #pragma once
 #include <string>
+#include <list>
 #include "TreeCtrlMgr.h"
 #include "CopyDialog.h"
-#include "SearchDialog.h"
+#include "MGConfigurationTreeDoc.h"
 
 #define TREECTRL_INDENT 40
-#define WM_SEARCH_MESSAGE WM_USER+100
 
-
+typedef std::list<HTREEITEM> LISTTREE;
 
 class CMGConfigurationTreeView : public CView
 {
@@ -52,8 +52,17 @@ protected:
 private:
 	CTreeCtrl m_treeConfig;
 	CTreeCtrlMgr m_tcMgr;
+	CEdit m_editFind;
+	CButton m_buttonN;
+	CButton m_buttonP;
+	CButton m_buttonA;
+	CListCtrl m_listRes;
 	HANDLE hThread;
 	DWORD ThreadID;
+	LISTTREE listItem;
+	LISTTREE listFindItem;
+	CString strFind;
+
 
 
 public:
@@ -64,17 +73,22 @@ public:
 	void OnRClickTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult); 
 	void OnDblClkTreeCtrl(NMHDR* pNMHDR, LRESULT* pResult);
 	void PopDialogCopy();
-	//static DWORD __stdcall  ThreadFunc(LPVOID lpParameter);
+	void OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
+
 
 	afx_msg void OnRclickmenuExpandall();
 	afx_msg void OnRclickmenuExpand();
 	afx_msg void OnRclickmenuCollapse();
 	afx_msg void OnRclickmenuCopy();
 	afx_msg void OnSearch();
+	afx_msg void OnClickButtonN();
+	afx_msg void OnClickButtonP();
+	afx_msg void OnClickButtonA();
 
 	CTreeCtrlMgr GetTreeCtrlMgr();
 
 
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };
 
 #ifndef _DEBUG  // debug version in MGConfigurationTreeView.cpp

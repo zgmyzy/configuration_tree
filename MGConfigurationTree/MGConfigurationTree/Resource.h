@@ -26,6 +26,11 @@
 #define ID_RCLICKMENU_COPY              32779
 #define ID_FILE_SEARCH                  32780
 #define ID_SEARCH                       32781
+#define ID_EDIT_TREE_FIND               61446
+#define ID_BUTTON_N                     61447
+#define ID_BUTTON_P                     61448
+#define ID_LIST_RES                     61449
+#define ID_BUTTON_A                     61450
 
 // Next default values for new objects
 // 
