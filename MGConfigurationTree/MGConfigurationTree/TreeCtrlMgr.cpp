@@ -97,6 +97,22 @@ CTreeNode* CTreeCtrlMgr::TreeInit(CString strPath)
 
 }
 
+
+void CTreeCtrlMgr::TreeDestroy(CTreeNode * root)
+{
+	if (root->GetChild())
+	{
+		TreeDestroy(root->GetChild());
+	}
+	if (root->GetSibling())
+	{
+		TreeDestroy(root->GetSibling());
+	}
+	root = NULL;
+	delete root;
+}
+
+
 void CTreeCtrlMgr::onTest(CTreeCtrl* tc, CString node, HTREEITEM item, int n)
 {
 	HTREEITEM hTmp;
@@ -187,10 +203,6 @@ LISTTREE CTreeCtrlMgr::TreeCtrlSearch(CTreeCtrl * tc, HTREEITEM item, CString te
 {
 	LISTTREE listItem;
 	CString tmp = tc->GetItemText(item);
-	//if (item && tmp.Find(text) >= 0)
-	//{
-	//	listItem.push_back(item);
-	//}
 
 	if (item)
 		listItem.push_back(item);

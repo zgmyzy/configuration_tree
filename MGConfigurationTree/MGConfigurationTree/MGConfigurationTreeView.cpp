@@ -143,8 +143,7 @@ int CMGConfigurationTreeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_buttonP.Create(_T("prev"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(0, 0, 0, 0), this, ID_BUTTON_P);
 	m_buttonA.Create(_T("find all"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(0, 0, 0, 0), this, ID_BUTTON_A);
 
-	m_editFind.Create(WS_CHILD | WS_VISIBLE | WS_BORDER | SS_CENTER, CRect(0, 60, 100, 110), this, ID_EDIT_TREE_FIND);
-	m_editFind.SetWindowText(_T("system"));
+	m_editFind.Create(WS_CHILD | WS_VISIBLE | WS_BORDER | SS_LEFT, CRect(0, 60, 100, 110), this, ID_EDIT_TREE_FIND);
 	m_treeConfig.Create(TVS_HASBUTTONS, CRect(0, 0, 0, 0), this, ID_TREE_CONFIG);
 	m_treeConfig.SetIndent(TREECTRL_INDENT);
 	m_treeConfig.ShowWindow(SW_SHOWNORMAL);
@@ -175,14 +174,6 @@ void CMGConfigurationTreeView::OnPaint()
 	m_buttonA.MoveWindow(CRect(rec.TopLeft().x + 310, rec.BottomRight().y - 40, rec.TopLeft().x + 370, rec.BottomRight().y - 10));
 	int nColumnCount = m_listRes.GetHeaderCtrl()->GetItemCount();
 
-	//for (int i = 0; i < nColumnCount; i++)
-	//{
-	//	m_listRes.SetColumnWidth(i, LVSCW_AUTOSIZE);
-	//	int nColumnWidth = m_listRes.GetColumnWidth(i);
-	//	m_listRes.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-	//	int nHeaderWidth = m_listRes.GetColumnWidth(i);
-	//	m_listRes.SetColumnWidth(i, max(nColumnWidth, nHeaderWidth) + 2);
-	//}
 }
 
 void CMGConfigurationTreeView::OnSize(UINT nType, int cx, int cy)
@@ -196,6 +187,25 @@ CTreeCtrlMgr CMGConfigurationTreeView::GetTreeCtrlMgr()
 	return m_tcMgr;
 }
 
+void CMGConfigurationTreeView::OnOpenFile(CString strFile)
+{
+	CTreeNode* tnTree = m_tcMgr.TreeInit(strFile);
+	if (!tnTree)
+	{
+		AfxMessageBox(_T("failed to struct the tree"));
+		return;
+	}
+	listItem.clear();
+	strFind = _T("");
+	listFindItem.clear();
+	if (tnTree)
+	{
+		m_treeConfig.DeleteAllItems();
+		m_tcMgr.TreeCtrlDisplay(&m_treeConfig, tnTree, NULL, &listItem);
+		m_tcMgr.TreeCtrlExpand(&m_treeConfig, m_treeConfig.GetRootItem());
+		m_tcMgr.TreeDestroy(tnTree);
+	}
+}
 
 void CMGConfigurationTreeView::OnTestForTree()
 {
@@ -221,8 +231,7 @@ void CMGConfigurationTreeView::OnTestForTree()
 		m_tcMgr.TreeCtrlDisplay(&m_treeConfig, tnTree, NULL, &listItem);
 		m_tcMgr.TreeCtrlExpand(&m_treeConfig, m_treeConfig.GetRootItem());
 		//m_tcMgr.onTest(&m_treeConfig, _T("TEST"), NULL, 20000);
-		delete tnTree;
-		tnTree = NULL;
+		m_tcMgr.TreeDestroy(tnTree);
 	}
 
 
@@ -259,6 +268,7 @@ void CMGConfigurationTreeView::PopDialogCopy()
 	HTREEITEM item = m_treeConfig.GetSelectedItem();
 	copyDialog->m_str = temp;
 	copyDialog->DoModal();
+	copyDialog = NULL;
 	delete copyDialog;
 }
 
@@ -317,8 +327,6 @@ void CMGConfigurationTreeView::OnDblclkList(NMHDR * pNMHDR, LRESULT * pResult)
 	{
 		return;
 	}
-
-	HTREEITEM selectedItem;
 	LISTTREE::iterator iter = listFindItem.begin();
 	for (int n = 0; n < nItem; n++)
 	{
@@ -327,6 +335,7 @@ void CMGConfigurationTreeView::OnDblclkList(NMHDR * pNMHDR, LRESULT * pResult)
 	m_tcMgr.TreeCtrlHighlight(&m_treeConfig, *iter);
 
 }
+
 
 void CMGConfigurationTreeView::OnRclickmenuExpandall()
 {

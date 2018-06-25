@@ -11,6 +11,8 @@
 #define IDR_MENU_RCLICK                 310
 #define IDD_DIALOG_COPY                 311
 #define IDD_DIALOG_SEARCH               315
+#define IDB_BITMAP1                     325
+#define IDI_ICON_MY                     326
 #define IDC_EDIT_COPY                   1000
 #define IDC_BUTTON_CLOSE                1002
 #define IDC_EDIT_SEARCH                 1004
@@ -26,17 +28,17 @@
 #define ID_RCLICKMENU_COPY              32779
 #define ID_FILE_SEARCH                  32780
 #define ID_SEARCH                       32781
-#define ID_EDIT_TREE_FIND               61446
 #define ID_BUTTON_N                     61447
 #define ID_BUTTON_P                     61448
 #define ID_LIST_RES                     61449
 #define ID_BUTTON_A                     61450
+#define ID_EDIT_TREE_FIND               62000
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        317
+#define _APS_NEXT_RESOURCE_VALUE        327
 #define _APS_NEXT_COMMAND_VALUE         32782
 #define _APS_NEXT_CONTROL_VALUE         1007
 #define _APS_NEXT_SYMED_VALUE           310

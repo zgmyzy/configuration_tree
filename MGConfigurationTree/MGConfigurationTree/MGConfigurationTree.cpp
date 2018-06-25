@@ -22,7 +22,7 @@ BEGIN_MESSAGE_MAP(CMGConfigurationTreeApp, CWinApp)
 	ON_COMMAND(ID_APP_ABOUT, &CMGConfigurationTreeApp::OnAppAbout)
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, &CWinApp::OnFileNew)
-	ON_COMMAND(ID_FILE_OPEN, &CWinApp::OnFileOpen)
+	ON_COMMAND(ID_FILE_OPEN, OnFileOpen)
 	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinApp::OnFilePrintSetup)
 END_MESSAGE_MAP()
@@ -172,6 +172,23 @@ void CMGConfigurationTreeApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
+}
+
+void CMGConfigurationTreeApp::OnFileOpen()
+{
+	CFileDialog  dlg(TRUE);
+
+	int nRetn = dlg.DoModal();
+	if (nRetn == IDOK)
+	{
+		CString cs;
+
+		cs = dlg.GetPathName();
+		CView *pView = ((CFrameWndEx *)m_pMainWnd)->GetActiveView();
+
+		((CMGConfigurationTreeView*)pView)->OnOpenFile(cs);
+
+	}
 }
 
 // CMGConfigurationTreeApp message handlers

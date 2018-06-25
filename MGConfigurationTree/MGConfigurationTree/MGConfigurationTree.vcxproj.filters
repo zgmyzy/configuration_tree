@@ -101,5 +101,23 @@
     <Image Include="res\Toolbar.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="D:\download\jD3AL2AAvb.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\icon_lemon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\lemon.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ooopic_1529935403.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ooopic_1529935798.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

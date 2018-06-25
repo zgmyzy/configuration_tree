@@ -17,6 +17,7 @@ public:
 	void TreeCtrlExpandCollapseAll(CTreeCtrl* tc, HTREEITEM item, bool expand);
 	void TreeSearchNextPrev(CTreeCtrl* tc, bool bNext, CString &strFind, LISTTREE listItem, CString strEdit);
 	void TreeSearchAll(CTreeCtrl* tc, LISTTREE listItem, LISTTREE& listFindItem, CString& strFind, CString strEdit);
+	void TreeDestroy(CTreeNode* root);
 
 
 	LISTTREE TreeCtrlSearch(CTreeCtrl* tc, HTREEITEM item, CString text);

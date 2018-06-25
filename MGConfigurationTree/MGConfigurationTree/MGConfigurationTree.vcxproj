@@ -30,7 +30,7 @@
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -136,8 +136,14 @@
     <None Include="res\MGConfigurationTree.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="D:\download\jD3AL2AAvb.png" />
+    <Image Include="res\icon1.ico" />
+    <Image Include="res\icon_lemon.png" />
+    <Image Include="res\lemon.bmp" />
     <Image Include="res\MGConfigurationTree.ico" />
     <Image Include="res\MGConfigurationTreeDoc.ico" />
+    <Image Include="res\ooopic_1529935403.ico" />
+    <Image Include="res\ooopic_1529935798.ico" />
     <Image Include="res\Toolbar.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
