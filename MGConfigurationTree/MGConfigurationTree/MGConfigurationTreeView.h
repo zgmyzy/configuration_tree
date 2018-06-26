@@ -76,7 +76,7 @@ public:
 	void OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
 
 	void OnOpenFile(CString strFile);
-
+	BOOL PreTranslateMessage(MSG* pMsg);
 
 	afx_msg void OnRclickmenuExpandall();
 	afx_msg void OnRclickmenuExpand();
