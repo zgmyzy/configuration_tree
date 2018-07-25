@@ -372,8 +372,6 @@ void CMGConfigurationTreeView::OnSearch()
 
 BOOL CMGConfigurationTreeView::PreTranslateMessage(MSG* pMsg)
 {
-	// TODO: 在此添加专用代码和/或调用基类
-
 
 	UINT  nKeyCode = pMsg->wParam; // virtual key code of the key pressed
 	if (pMsg->message == WM_KEYDOWN)

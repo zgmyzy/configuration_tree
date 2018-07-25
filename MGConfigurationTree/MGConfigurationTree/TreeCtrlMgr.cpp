@@ -32,15 +32,41 @@ CTreeNode* CTreeCtrlMgr::TreeInit(CString strPath)
 	char cData[256];
 	CTreeNode* tnParent = NULL;
 	CTreeNode* tnTempParent = new CTreeNode();
+	int nSpaceInit = 0;
+	bool bBegin = false;
 	while (!feof(pFile))
 	{
 		memset(cData, 0, 256);
 		fgets(cData, 256, pFile);
 		CString strData(cData);
-		if (strData.GetLength() != 0 && strData != _T("\n"))
+		if (strData.GetLength() != (nSpaceInit+1) && strData != _T("\n"))
 		{
-			int pos = strData.Find(_T("#"));
-			if (0 == pos) continue;
+			int pos;
+
+			if (!bBegin && strData.Right(9) != "exit all\n")
+			{
+				continue;
+			}
+			else if (!bBegin && strData.Right(9) == "exit all\n")
+			{
+				char* c = cData;
+				while ('\0' != *c)
+				{
+					if (' ' == *c)
+					{
+						nSpaceInit++;
+						c++;
+					}
+					else
+						break;
+				}
+				bBegin = true;
+			}
+			else if (bBegin && strData.Right(9) == "exit all\n")
+				break;
+
+			pos = strData.Find(_T("#"));
+			if (nSpaceInit == pos) continue;
 
 			pos = strData.Find(_T("echo"));
 			if (-1 != pos) continue;
@@ -61,6 +87,7 @@ CTreeNode* CTreeCtrlMgr::TreeInit(CString strPath)
 					break;
 			}
 			CTreeNode* newNode = new CTreeNode(strData.Mid(nSpace, strData.GetLength() - nSpace - 1), nSpace);
+
 			if (!tnParent)
 			{
 				tnParent = newNode;
