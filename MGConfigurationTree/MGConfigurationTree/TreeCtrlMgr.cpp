@@ -169,6 +169,12 @@ void CTreeCtrlMgr::TreeCtrlDisplay(CTreeCtrl* tc, CTreeNode* node, HTREEITEM ite
 
 	if (item)
 	{
+		CString strm = tc->GetItemText(item);
+		CString n = node->GetName();
+		if (node->GetParent() == NULL)
+		{
+			CString n = node->GetName();
+		}
 		hTmp = tc->InsertItem(node->GetName(), item);
 	}
 	else
