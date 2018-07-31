@@ -121,7 +121,6 @@ CTreeNode* CTreeCtrlMgr::TreeInit(CString strPath)
 	}
 	fclose(pFile);
 	return tnParent;
-
 }
 
 

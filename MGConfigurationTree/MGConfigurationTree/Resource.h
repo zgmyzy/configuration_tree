@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ 生成的包含文件。
-// 供 MGConfigurationTree.rc 使用
+// Microsoft Visual C++ generated include file.
+// Used by MGConfigurationTree.rc
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
@@ -13,11 +13,15 @@
 #define IDD_DIALOG_SEARCH               315
 #define IDB_BITMAP1                     325
 #define IDI_ICON_MY                     326
+#define IDD_DIALOG_WAITING              327
+#define IDR_ACCELERATOR1                328
 #define IDC_EDIT_COPY                   1000
 #define IDC_BUTTON_CLOSE                1002
 #define IDC_EDIT_SEARCH                 1004
 #define IDC_PREV                        1005
 #define IDC_NEXT                        1006
+#define IDC_STATIC_GIF                  1009
+#define IDC_STATIC_WAITING              1010
 #define ID_TEST                         32771
 #define ID_EXPANDALL_EXPAND             32773
 #define ID_EXPANDALL_COLLAPSE           32774
@@ -38,9 +42,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        327
-#define _APS_NEXT_COMMAND_VALUE         32782
-#define _APS_NEXT_CONTROL_VALUE         1007
+#define _APS_NEXT_RESOURCE_VALUE        332
+#define _APS_NEXT_COMMAND_VALUE         32783
+#define _APS_NEXT_CONTROL_VALUE         1011
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

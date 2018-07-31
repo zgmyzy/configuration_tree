@@ -20,11 +20,27 @@
 
 DWORD __stdcall ThreadFunc(LPVOID lpParameter)
 {
-	CSearchDialog* dlg = new CSearchDialog();
-	dlg->SetView((CMGConfigurationTreeView*)lpParameter);
-	dlg->DoModal();
-	dlg = NULL;
-	delete dlg;
+	//CDialogWaiting* dlg = new CDialogWaiting();
+	////dlg->SetView((CMGConfigurationTreeView*)lpParameter);
+	//dlg->DoModal();
+	//dlg = NULL;
+	//delete dlg;
+	CMGConfigurationTreeView* view = ((CMGConfigurationTreeView*)lpParameter);
+	CProgressCtrl* pro = view->GetProCtrl();
+	pro->ShowWindow(SW_SHOWNORMAL);
+
+	bool* bExit = view->GetExit();
+	while (!*bExit)
+	{
+		if (pro->GetPos() == 100)
+		{
+			pro->SetPos(0);
+			continue;
+		}
+		pro->OffsetPos(4);
+		Sleep(100);
+	}
+	
 	return NULL;
 }
 
@@ -51,14 +67,15 @@ BEGIN_MESSAGE_MAP(CMGConfigurationTreeView, CView)
 	ON_COMMAND(ID_SEARCH, &CMGConfigurationTreeView::OnSearch)
 	ON_BN_CLICKED(ID_BUTTON_N, &CMGConfigurationTreeView::OnClickButtonN)
 	ON_BN_CLICKED(ID_BUTTON_P, &CMGConfigurationTreeView::OnClickButtonP)
-	ON_BN_CLICKED(ID_BUTTON_A, &CMGConfigurationTreeView::OnClickButtonA)
+	//ON_BN_CLICKED(ID_BUTTON_A, &CMGConfigurationTreeView::OnClickButtonA)
+	ON_BN_CLICKED(ID_BUTTON_A, &CMGConfigurationTreeView::OnSearch)
 END_MESSAGE_MAP()
 
 // CMGConfigurationTreeView construction/destruction
 
 CMGConfigurationTreeView::CMGConfigurationTreeView()
 {
-	// TODO: add construction code here
+	m_bExit = true;
 
 }
 
@@ -152,6 +169,10 @@ int CMGConfigurationTreeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_listRes.ShowWindow(SW_HIDE);
 
+	m_pro.Create(WS_CHILD | WS_VISIBLE | PBS_SMOOTH, CRect(0, 0, 0, 0), this, 1);
+	m_pro.SetRange(0, 100);
+
+	m_pro.ShowWindow(SW_HIDE);
 
 	return 0;
 }
@@ -174,6 +195,8 @@ void CMGConfigurationTreeView::OnPaint()
 	m_buttonA.MoveWindow(CRect(rec.TopLeft().x + 310, rec.BottomRight().y - 40, rec.TopLeft().x + 370, rec.BottomRight().y - 10));
 	int nColumnCount = m_listRes.GetHeaderCtrl()->GetItemCount();
 
+	m_pro.MoveWindow(CRect(rec.TopLeft().x + 380, rec.BottomRight().y - 40, rec.TopLeft().x + 580, rec.BottomRight().y - 10));
+
 }
 
 void CMGConfigurationTreeView::OnSize(UINT nType, int cx, int cy)
@@ -195,6 +218,11 @@ void CMGConfigurationTreeView::OnOpenFile(CString strFile)
 		AfxMessageBox(_T("failed to struct the tree"));
 		return;
 	}
+	m_bExit = false;
+	hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadFunc, this, 0, &ThreadID);
+
+	CloseHandle(hThread);
+
 	listItem.clear();
 	strFind = _T("");
 	listFindItem.clear();
@@ -205,6 +233,7 @@ void CMGConfigurationTreeView::OnOpenFile(CString strFile)
 		m_tcMgr.TreeCtrlExpand(&m_treeConfig, m_treeConfig.GetRootItem());
 		m_tcMgr.TreeDestroy(tnTree);
 	}
+	m_bExit = true;
 }
 
 void CMGConfigurationTreeView::OnTestForTree()
@@ -363,9 +392,9 @@ void CMGConfigurationTreeView::OnRclickmenuCopy()
 
 void CMGConfigurationTreeView::OnSearch()
 {
-	//hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadFunc, this, 0, &ThreadID);
+	hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadFunc, this, 0, &ThreadID);
 
-	//CloseHandle(hThread);
+	CloseHandle(hThread);
 
 }
 
@@ -386,4 +415,14 @@ BOOL CMGConfigurationTreeView::PreTranslateMessage(MSG* pMsg)
 		}
 	}
 	return CView::PreTranslateMessage(pMsg);
+}
+
+CProgressCtrl* CMGConfigurationTreeView::GetProCtrl()
+{
+	return &m_pro;
+}
+
+bool* CMGConfigurationTreeView::GetExit()
+{
+	return &m_bExit;
 }

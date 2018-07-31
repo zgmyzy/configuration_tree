@@ -179,13 +179,17 @@ void CMGConfigurationTreeApp::OnFileOpen()
 	CFileDialog  dlg(TRUE);
 
 	int nRetn = dlg.DoModal();
+	int n = 0;
 	if (nRetn == IDOK)
 	{
 		CString cs;
 
 		cs = dlg.GetPathName();
 		CView *pView = ((CFrameWndEx *)m_pMainWnd)->GetActiveView();
-
+		n = cs.ReverseFind(_T('\\'));
+		CString title;
+		title.Format(_T("%s - MGConfigurationTree"), cs.Right(cs.GetLength() - n - 1));
+		AfxGetMainWnd()->SetWindowText(title);
 		((CMGConfigurationTreeView*)pView)->OnOpenFile(cs);
 
 	}

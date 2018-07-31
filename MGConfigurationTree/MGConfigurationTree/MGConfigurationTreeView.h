@@ -8,6 +8,7 @@
 #include "TreeCtrlMgr.h"
 #include "CopyDialog.h"
 #include "MGConfigurationTreeDoc.h"
+#include "DialogWaiting.h"
 
 #define TREECTRL_INDENT 40
 
@@ -57,11 +58,14 @@ private:
 	CButton m_buttonP;
 	CButton m_buttonA;
 	CListCtrl m_listRes;
+	CProgressCtrl m_pro;
 	HANDLE hThread;
 	DWORD ThreadID;
 	LISTTREE listItem;
 	LISTTREE listFindItem;
 	CString strFind;
+
+	bool m_bExit;
 
 
 
@@ -88,6 +92,8 @@ public:
 	afx_msg void OnClickButtonA();
 
 	CTreeCtrlMgr GetTreeCtrlMgr();
+	CProgressCtrl* GetProCtrl();
+	bool* GetExit();
 
 
 	afx_msg void OnSize(UINT nType, int cx, int cy);

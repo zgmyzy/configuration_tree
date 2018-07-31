@@ -51,6 +51,12 @@
     <ClInclude Include="SearchDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DialogWaiting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PictureEx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MGConfigurationTree.cpp">
@@ -80,6 +86,12 @@
     <ClCompile Include="SearchDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DialogWaiting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PictureEx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MGConfigurationTree.rc">
@@ -88,6 +100,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\MGConfigurationTree.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\gif2.bin">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -117,6 +132,15 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\ooopic_1529935798.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tree.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\giphy.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\status.gif">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
