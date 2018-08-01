@@ -178,7 +178,7 @@ void CMGConfigurationTreeApp::OnFileOpen()
 {
 	CFileDialog  dlg(TRUE);
 
-	int nRetn = dlg.DoModal();
+	INT_PTR nRetn = dlg.DoModal();
 	int n = 0;
 	if (nRetn == IDOK)
 	{

@@ -13,8 +13,8 @@
 #define IDD_DIALOG_SEARCH               315
 #define IDB_BITMAP1                     325
 #define IDI_ICON_MY                     326
-#define IDD_DIALOG_WAITING              327
 #define IDR_ACCELERATOR1                328
+#define IDD_DIALOG_WAIT                 332
 #define IDC_EDIT_COPY                   1000
 #define IDC_BUTTON_CLOSE                1002
 #define IDC_EDIT_SEARCH                 1004
@@ -22,6 +22,8 @@
 #define IDC_NEXT                        1006
 #define IDC_STATIC_GIF                  1009
 #define IDC_STATIC_WAITING              1010
+#define IDC_PROGRESS1                   1011
+#define IDC_PROGRESS_WAIT               1011
 #define ID_TEST                         32771
 #define ID_EXPANDALL_EXPAND             32773
 #define ID_EXPANDALL_COLLAPSE           32774
@@ -42,9 +44,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        332
+#define _APS_NEXT_RESOURCE_VALUE        333
 #define _APS_NEXT_COMMAND_VALUE         32783
-#define _APS_NEXT_CONTROL_VALUE         1011
+#define _APS_NEXT_CONTROL_VALUE         1012
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

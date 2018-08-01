@@ -8,11 +8,15 @@
 #include "TreeCtrlMgr.h"
 #include "CopyDialog.h"
 #include "MGConfigurationTreeDoc.h"
-#include "DialogWaiting.h"
+#include "ProgThread.h"
+#include "WaitDialog.h"
 
 #define TREECTRL_INDENT 40
+#define WM_PROG WM_USER+101
+#define WM_PROG_STOP WM_USER+102
 
 typedef std::list<HTREEITEM> LISTTREE;
+
 
 class CMGConfigurationTreeView : public CView
 {
@@ -58,14 +62,13 @@ private:
 	CButton m_buttonP;
 	CButton m_buttonA;
 	CListCtrl m_listRes;
-	CProgressCtrl m_pro;
 	HANDLE hThread;
 	DWORD ThreadID;
 	LISTTREE listItem;
 	LISTTREE listFindItem;
 	CString strFind;
 
-	bool m_bExit;
+	CWinThread* pThrdProg;
 
 
 
@@ -81,6 +84,8 @@ public:
 
 	void OnOpenFile(CString strFile);
 	BOOL PreTranslateMessage(MSG* pMsg);
+	void StartProg();
+	void StopProg();
 
 	afx_msg void OnRclickmenuExpandall();
 	afx_msg void OnRclickmenuExpand();
@@ -93,10 +98,9 @@ public:
 
 	CTreeCtrlMgr GetTreeCtrlMgr();
 	CProgressCtrl* GetProCtrl();
-	bool* GetExit();
-
 
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnDestroy();
 };
 
 #ifndef _DEBUG  // debug version in MGConfigurationTreeView.cpp

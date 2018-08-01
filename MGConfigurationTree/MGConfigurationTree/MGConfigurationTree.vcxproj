@@ -189,27 +189,26 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CopyDialog.h" />
-    <ClInclude Include="DialogWaiting.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MGConfigurationTree.h" />
     <ClInclude Include="MGConfigurationTreeDoc.h" />
     <ClInclude Include="MGConfigurationTreeView.h" />
-    <ClInclude Include="PictureEx.h" />
+    <ClInclude Include="ProgThread.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SearchDialog.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TreeCtrlMgr.h" />
     <ClInclude Include="TreeNode.h" />
+    <ClInclude Include="WaitDialog.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CopyDialog.cpp" />
-    <ClCompile Include="DialogWaiting.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MGConfigurationTree.cpp" />
     <ClCompile Include="MGConfigurationTreeDoc.cpp" />
     <ClCompile Include="MGConfigurationTreeView.cpp" />
-    <ClCompile Include="PictureEx.cpp" />
+    <ClCompile Include="ProgThread.cpp" />
     <ClCompile Include="SearchDialog.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -219,6 +218,7 @@
     </ClCompile>
     <ClCompile Include="TreeCtrlMgr.cpp" />
     <ClCompile Include="TreeNode.cpp" />
+    <ClCompile Include="WaitDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MGConfigurationTree.rc" />

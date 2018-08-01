@@ -51,10 +51,10 @@
     <ClInclude Include="SearchDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DialogWaiting.h">
+    <ClInclude Include="ProgThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PictureEx.h">
+    <ClInclude Include="WaitDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -86,10 +86,10 @@
     <ClCompile Include="SearchDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DialogWaiting.cpp">
+    <ClCompile Include="ProgThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PictureEx.cpp">
+    <ClCompile Include="WaitDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

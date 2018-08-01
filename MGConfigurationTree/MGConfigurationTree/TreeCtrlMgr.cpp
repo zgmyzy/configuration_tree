@@ -126,16 +126,19 @@ CTreeNode* CTreeCtrlMgr::TreeInit(CString strPath)
 
 void CTreeCtrlMgr::TreeDestroy(CTreeNode * root)
 {
-	if (root->GetChild())
+	if (root)
 	{
-		TreeDestroy(root->GetChild());
+		if (root->GetChild())
+		{
+			TreeDestroy(root->GetChild());
+		}
+		if (root->GetSibling())
+		{
+			TreeDestroy(root->GetSibling());
+		}
+		delete root;
+		root = NULL;
 	}
-	if (root->GetSibling())
-	{
-		TreeDestroy(root->GetSibling());
-	}
-	root = NULL;
-	delete root;
 }
 
 

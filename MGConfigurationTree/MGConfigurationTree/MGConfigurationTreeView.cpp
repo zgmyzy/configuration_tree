@@ -25,24 +25,10 @@ DWORD __stdcall ThreadFunc(LPVOID lpParameter)
 	//dlg->DoModal();
 	//dlg = NULL;
 	//delete dlg;
-	CMGConfigurationTreeView* view = ((CMGConfigurationTreeView*)lpParameter);
-	CProgressCtrl* pro = view->GetProCtrl();
-	pro->ShowWindow(SW_SHOWNORMAL);
-
-	bool* bExit = view->GetExit();
-	while (!*bExit)
-	{
-		if (pro->GetPos() == 100)
-		{
-			pro->SetPos(0);
-			continue;
-		}
-		pro->OffsetPos(4);
-		Sleep(100);
-	}
 	
 	return NULL;
 }
+
 
 // CMGConfigurationTreeView
 
@@ -67,15 +53,14 @@ BEGIN_MESSAGE_MAP(CMGConfigurationTreeView, CView)
 	ON_COMMAND(ID_SEARCH, &CMGConfigurationTreeView::OnSearch)
 	ON_BN_CLICKED(ID_BUTTON_N, &CMGConfigurationTreeView::OnClickButtonN)
 	ON_BN_CLICKED(ID_BUTTON_P, &CMGConfigurationTreeView::OnClickButtonP)
-	//ON_BN_CLICKED(ID_BUTTON_A, &CMGConfigurationTreeView::OnClickButtonA)
-	ON_BN_CLICKED(ID_BUTTON_A, &CMGConfigurationTreeView::OnSearch)
+	ON_BN_CLICKED(ID_BUTTON_A, &CMGConfigurationTreeView::OnClickButtonA)
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 // CMGConfigurationTreeView construction/destruction
 
 CMGConfigurationTreeView::CMGConfigurationTreeView()
 {
-	m_bExit = true;
 
 }
 
@@ -169,11 +154,7 @@ int CMGConfigurationTreeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_listRes.ShowWindow(SW_HIDE);
 
-	m_pro.Create(WS_CHILD | WS_VISIBLE | PBS_SMOOTH, CRect(0, 0, 0, 0), this, 1);
-	m_pro.SetRange(0, 100);
-
-	m_pro.ShowWindow(SW_HIDE);
-
+	pThrdProg = NULL;
 	return 0;
 }
 
@@ -194,9 +175,6 @@ void CMGConfigurationTreeView::OnPaint()
 	m_buttonP.MoveWindow(CRect(rec.TopLeft().x + 260, rec.BottomRight().y - 40, rec.TopLeft().x + 305, rec.BottomRight().y - 10));
 	m_buttonA.MoveWindow(CRect(rec.TopLeft().x + 310, rec.BottomRight().y - 40, rec.TopLeft().x + 370, rec.BottomRight().y - 10));
 	int nColumnCount = m_listRes.GetHeaderCtrl()->GetItemCount();
-
-	m_pro.MoveWindow(CRect(rec.TopLeft().x + 380, rec.BottomRight().y - 40, rec.TopLeft().x + 580, rec.BottomRight().y - 10));
-
 }
 
 void CMGConfigurationTreeView::OnSize(UINT nType, int cx, int cy)
@@ -205,6 +183,11 @@ void CMGConfigurationTreeView::OnSize(UINT nType, int cx, int cy)
 }
 
 
+void CMGConfigurationTreeView::OnDestroy()
+{
+	CView::OnDestroy();
+}
+
 CTreeCtrlMgr CMGConfigurationTreeView::GetTreeCtrlMgr()
 {
 	return m_tcMgr;
@@ -212,28 +195,29 @@ CTreeCtrlMgr CMGConfigurationTreeView::GetTreeCtrlMgr()
 
 void CMGConfigurationTreeView::OnOpenFile(CString strFile)
 {
+	StartProg();
 	CTreeNode* tnTree = m_tcMgr.TreeInit(strFile);
 	if (!tnTree)
 	{
+		StopProg();
 		AfxMessageBox(_T("failed to struct the tree"));
 		return;
 	}
-	m_bExit = false;
-	hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadFunc, this, 0, &ThreadID);
 
-	CloseHandle(hThread);
+	m_listRes.DeleteAllItems();
+	m_listRes.DeleteColumn(0);
 
 	listItem.clear();
 	strFind = _T("");
 	listFindItem.clear();
-	if (tnTree)
-	{
-		m_treeConfig.DeleteAllItems();
-		m_tcMgr.TreeCtrlDisplay(&m_treeConfig, tnTree, NULL, &listItem);
-		m_tcMgr.TreeCtrlExpand(&m_treeConfig, m_treeConfig.GetRootItem());
-		m_tcMgr.TreeDestroy(tnTree);
-	}
-	m_bExit = true;
+
+	
+	m_treeConfig.DeleteAllItems();
+	m_tcMgr.TreeCtrlDisplay(&m_treeConfig, tnTree, NULL, &listItem);
+	m_tcMgr.TreeCtrlExpand(&m_treeConfig, m_treeConfig.GetRootItem());
+	m_tcMgr.TreeDestroy(tnTree);
+	StopProg();
+
 }
 
 void CMGConfigurationTreeView::OnTestForTree()
@@ -297,8 +281,12 @@ void CMGConfigurationTreeView::PopDialogCopy()
 	HTREEITEM item = m_treeConfig.GetSelectedItem();
 	copyDialog->m_str = temp;
 	copyDialog->DoModal();
-	copyDialog = NULL;
-	delete copyDialog;
+	if (copyDialog)
+	{
+		delete copyDialog;
+		copyDialog = NULL;
+	}
+	
 }
 
 
@@ -350,7 +338,6 @@ void CMGConfigurationTreeView::OnClickButtonA()
 
 void CMGConfigurationTreeView::OnDblclkList(NMHDR * pNMHDR, LRESULT * pResult)
 {
-	/*AfxMessageBox(_T("result"));*/
 	int nItem = m_listRes.GetNextItem(-1, LVNI_SELECTED);
 	if (nItem == -1)
 	{
@@ -392,10 +379,15 @@ void CMGConfigurationTreeView::OnRclickmenuCopy()
 
 void CMGConfigurationTreeView::OnSearch()
 {
-	hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadFunc, this, 0, &ThreadID);
+	//hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadFunc, this, 0, &ThreadID);
 
-	CloseHandle(hThread);
+	//CloseHandle(hThread);
 
+	StartProg();
+	Sleep(3000);
+	
+	StopProg();
+	
 }
 
 
@@ -411,18 +403,33 @@ BOOL CMGConfigurationTreeView::PreTranslateMessage(MSG* pMsg)
 		{
 			::TranslateMessage(pMsg);
 			::DispatchMessage(pMsg);
-			return(TRUE);
+			return TRUE;
+		}
+		else if (nKeyCode == VK_RETURN)
+		{
+			OnClickButtonA();
+			return TRUE;
 		}
 	}
 	return CView::PreTranslateMessage(pMsg);
 }
 
-CProgressCtrl* CMGConfigurationTreeView::GetProCtrl()
+void CMGConfigurationTreeView::StartProg()
 {
-	return &m_pro;
+	pThrdProg = AfxBeginThread(RUNTIME_CLASS(CProgThread));
+	if (NULL == pThrdProg)
+	{
+		return;
+	}
+
+	//bool bExit = false;
+	//pThrdProg->PostThreadMessageW(WM_PROG, NULL, (LPARAM)&m_bExit);
 }
 
-bool* CMGConfigurationTreeView::GetExit()
+void CMGConfigurationTreeView::StopProg()
 {
-	return &m_bExit;
+	bool bExit = true;
+	pThrdProg->PostThreadMessageW(WM_PROG, NULL, (LPARAM)&bExit);
 }
+
+

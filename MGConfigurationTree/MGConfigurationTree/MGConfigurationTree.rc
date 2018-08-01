@@ -102,11 +102,14 @@ BEGIN
     PUSHBUTTON      "Next",IDC_NEXT,162,7,50,14
 END
 
-IDD_DIALOG_WAITING DIALOGEX 0, 0, 40, 35
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU
+IDD_DIALOG_WAIT DIALOGEX 0, 0, 183, 50
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+EXSTYLE WS_EX_WINDOWEDGE
+CAPTION "Please wait..."
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_STATIC_GIF,"Static",SS_BLACKRECT,0,0,40,35
+    LTEXT           "Parsing file...",IDC_STATIC,7,7,44,8
+    CONTROL         "",IDC_PROGRESS_WAIT,"msctls_progress32",PBS_SMOOTH | PBS_MARQUEE | WS_BORDER,7,20,168,14
 END
 
 
@@ -134,8 +137,12 @@ BEGIN
         BOTTOMMARGIN, 21
     END
 
-    IDD_DIALOG_WAITING, DIALOG
+    IDD_DIALOG_WAIT, DIALOG
     BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 176
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 43
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -156,13 +163,6 @@ IDI_ICON_MY             ICON                    "res\\ooopic_1529935403.ico"
 //
 
 IDB_BITMAP1             BITMAP                  "res\\lemon.bmp"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Accelerator
-//
-
-
 #endif    // Chinese (Simplified, PRC) resources
 /////////////////////////////////////////////////////////////////////////////
 
